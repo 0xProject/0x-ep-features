@@ -13,25 +13,48 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
-import { MAINNET_TEST_DATA } from "../utils/testdata";
+import { ARBITRUM_TEST_DATA, MAINNET_TEST_DATA } from "../utils/testdata";
+
+interface ProxyFunction {
+  id: string;
+  currentImpl: string;
+  name: string;
+  version: string;
+}
 
 const FeatureContainer = () => {
+  const [chain, setChain] = useState("ethereum");
+  const [proxyFunctions, setProxyFunctions] = useState<ProxyFunction[]>([]);
+
+  useEffect(() => {
+    if (chain === "ethereum") {
+      setProxyFunctions(MAINNET_TEST_DATA.data.proxyFunctions);
+    }
+    if (chain === "arbitrum") {
+      setProxyFunctions(ARBITRUM_TEST_DATA.data.proxyFunctions);
+    }
+  }, [chain]);
+
   return (
     <Box>
       <Center mb="8">
-        <Select defaultValue={"ethereum"} maxWidth={200}>
+        <Select
+          defaultValue={"ethereum"}
+          maxWidth={200}
+          onChange={(e) => setChain(e.target.value)}
+        >
           <option value="ethereum">Ethereum</option>
           <option value="arbitrum">Arbitrum</option>
-          <option value="option3">Option 3</option>
         </Select>
       </Center>
-      <FeatureTable />
+      <FeatureTable proxyFunctions={proxyFunctions} />
     </Box>
   );
 };
 
-const FeatureTable = () => {
+const FeatureTable = (props: { proxyFunctions: ProxyFunction[] }) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -44,18 +67,16 @@ const FeatureTable = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {MAINNET_TEST_DATA.data.proxyFunctions.map(
-            ({ id, currentImpl, name, version }) => {
-              return (
-                <Tr key={id}>
-                  <Td>{name}</Td>
-                  <Td>{id}</Td>
-                  <Td>{version}</Td>
-                  <Td>{currentImpl}</Td>
-                </Tr>
-              );
-            }
-          )}
+          {props.proxyFunctions.map(({ id, currentImpl, name, version }) => {
+            return (
+              <Tr key={id}>
+                <Td>{name}</Td>
+                <Td>{id}</Td>
+                <Td>{version}</Td>
+                <Td>{currentImpl}</Td>
+              </Tr>
+            );
+          })}
         </Tbody>
       </Table>
     </TableContainer>
