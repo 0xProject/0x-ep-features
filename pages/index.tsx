@@ -1,6 +1,7 @@
 import {
   TableContainer,
   Table,
+  Text,
   Thead,
   Tr,
   Th,
@@ -10,47 +11,56 @@ import {
   Box,
   Heading,
   Center,
+  Spinner,
+  Stack,
+  Container,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import { ARBITRUM_TEST_DATA, MAINNET_TEST_DATA } from "../utils/testdata";
-
-interface ProxyFunction {
-  id: string;
-  currentImpl: string;
-  name: string;
-  version: string;
-}
+import { Chain } from "../utils/constants";
+import { fetchProxyFunctions, ProxyFunction } from "../utils/subgraph";
 
 const FeatureContainer = () => {
-  const [chain, setChain] = useState("ethereum");
+  const [chain, setChain] = useState<Chain>(Chain.Ethereum);
   const [proxyFunctions, setProxyFunctions] = useState<ProxyFunction[]>([]);
 
   useEffect(() => {
-    if (chain === "ethereum") {
-      setProxyFunctions(MAINNET_TEST_DATA.data.proxyFunctions);
-    }
-    if (chain === "arbitrum") {
-      setProxyFunctions(ARBITRUM_TEST_DATA.data.proxyFunctions);
-    }
+    const fetchAndUpdate = async () => {
+      setProxyFunctions([]);
+      const proxyFunctions = await fetchProxyFunctions(chain);
+      setProxyFunctions(proxyFunctions);
+    };
+    fetchAndUpdate();
   }, [chain]);
 
   return (
-    <Box>
+    <Stack>
       <Center mb="8">
+        <Text mr="2" fontSize="xl">
+          ⛓
+        </Text>
         <Select
-          defaultValue={"ethereum"}
+          defaultValue={Chain.Ethereum}
           maxWidth={200}
-          onChange={(e) => setChain(e.target.value)}
+          onChange={(e) => setChain(e.target.value as Chain)}
         >
-          <option value="ethereum">Ethereum</option>
-          <option value="arbitrum">Arbitrum</option>
+          <option value={Chain.Ethereum}>Ethereum</option>
+          <option value={Chain.Polygon}>Polygon</option>
+          <option value={Chain.Avalanche}>Avalanche</option>
+          <option value={Chain.Arbitrum}>Arbitrum</option>
         </Select>
       </Center>
-      <FeatureTable proxyFunctions={proxyFunctions} />
-    </Box>
+      <Box>
+        <FeatureTable proxyFunctions={proxyFunctions} />
+        <Center mt="16">
+          <Spinner
+            size="xl"
+            visibility={proxyFunctions.length === 0 ? "visible" : "hidden"}
+          />
+        </Center>
+      </Box>
+    </Stack>
   );
 };
 
@@ -71,9 +81,9 @@ const FeatureTable = (props: { proxyFunctions: ProxyFunction[] }) => {
             return (
               <Tr key={id}>
                 <Td>{name}</Td>
-                <Td>{id}</Td>
+                <Td fontFamily="monospace">{id}</Td>
                 <Td>{version}</Td>
-                <Td>{currentImpl}</Td>
+                <Td fontFamily="monospace">{currentImpl}</Td>
               </Tr>
             );
           })}
@@ -85,18 +95,22 @@ const FeatureTable = (props: { proxyFunctions: ProxyFunction[] }) => {
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>0x Exchange Proxy Features</title>
-        <meta name="description" content="0x Exchange Proxy Features" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Container maxW="5xl">
+      <Box p="4">
+        <Head>
+          <title>0x Exchange Proxy Features</title>
+          <meta name="description" content="0x Exchange Proxy Features" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+      </Box>
 
-      <main className={styles.main}>
-        <Heading mb={8}>0x Exchange Proxy Features</Heading>
+      <main>
+        <Heading textAlign="center" mb={8}>
+          0x Exchange Proxy Features
+        </Heading>
         <FeatureContainer />
       </main>
-    </div>
+    </Container>
   );
 };
 
