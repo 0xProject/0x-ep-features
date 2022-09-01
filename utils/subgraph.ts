@@ -22,7 +22,7 @@ const CHAIN_TO_SUBGRAPH_URL: Record<Chain, string> = {
   mumbai:
     "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-mumbai",
   goerli:
-    "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-georli",
+    "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-goerli",
 };
 
 const PROXY_FUNCTIONS_QUERY = gql`
