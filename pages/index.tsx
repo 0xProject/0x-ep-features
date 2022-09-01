@@ -45,10 +45,14 @@ const FeatureContainer = () => {
           maxWidth={200}
           onChange={(e) => setChain(e.target.value as Chain)}
         >
-          <option value={Chain.Ethereum}>Ethereum</option>
-          <option value={Chain.Polygon}>Polygon</option>
-          <option value={Chain.Avalanche}>Avalanche</option>
-          <option value={Chain.Arbitrum}>Arbitrum</option>
+          {Object.keys(Chain).map((displayName) => {
+            const chain: Chain = Chain[displayName as keyof typeof Chain];
+            return (
+              <option key={chain} value={chain}>
+                {displayName}
+              </option>
+            );
+          })}
         </Select>
       </Center>
       <Box>
