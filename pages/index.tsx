@@ -27,6 +27,10 @@ import { Chain } from "../utils/constants";
 import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 import * as _ from "radash";
 
+const fetchFeatureFunctionsMemo = _.memo((chain: Chain) =>
+  fetchFeatureFunctions(chain)
+);
+
 const FeatureContainer = () => {
   const [chain, setChain] = useState<Chain>(Chain.Ethereum);
   const [featureNameToFunctions, setFeatureNameToFunctions] = useState<
@@ -36,7 +40,7 @@ const FeatureContainer = () => {
   useEffect(() => {
     const fetchAndUpdate = async () => {
       setFeatureNameToFunctions({});
-      const featureNameToFunctions = await fetchFeatureFunctions(chain);
+      const featureNameToFunctions = await fetchFeatureFunctionsMemo(chain);
       setFeatureNameToFunctions(featureNameToFunctions);
     };
     fetchAndUpdate();
