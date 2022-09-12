@@ -69,7 +69,7 @@ const FeatureContainer = () => {
       >
         <Spinner size="xl" />
       </Center>
-      <Accordion defaultIndex={[0]} allowMultiple>
+      <Accordion defaultIndex={[]} allowMultiple>
         {Object.keys(featureNameToFunctions).map((featureName) => {
           const functions = featureNameToFunctions[featureName];
           return (
