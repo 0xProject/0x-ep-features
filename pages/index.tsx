@@ -19,17 +19,19 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Chain } from "../utils/constants";
-import { fetchProxyFunctions, ProxyFunction } from "../utils/subgraph";
+import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 
 const FeatureContainer = () => {
   const [chain, setChain] = useState<Chain>(Chain.Ethereum);
-  const [proxyFunctions, setProxyFunctions] = useState<ProxyFunction[]>([]);
+  const [featureFunctions, setFeatureFunctions] = useState<FeatureFunction[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchAndUpdate = async () => {
-      setProxyFunctions([]);
-      const proxyFunctions = await fetchProxyFunctions(chain);
-      setProxyFunctions(proxyFunctions);
+      setFeatureFunctions([]);
+      const functions = await fetchFeatureFunctions(chain);
+      setFeatureFunctions(functions);
     };
     fetchAndUpdate();
   }, [chain]);
@@ -56,11 +58,11 @@ const FeatureContainer = () => {
         </Select>
       </Center>
       <Box>
-        <FeatureTable proxyFunctions={proxyFunctions} />
+        <FeatureTable featureFunctions={featureFunctions} />
         <Center mt="16">
           <Spinner
             size="xl"
-            visibility={proxyFunctions.length === 0 ? "visible" : "hidden"}
+            visibility={featureFunctions.length === 0 ? "visible" : "hidden"}
           />
         </Center>
       </Box>
@@ -68,29 +70,33 @@ const FeatureContainer = () => {
   );
 };
 
-const FeatureTable = (props: { proxyFunctions: ProxyFunction[] }) => {
+const FeatureTable = (props: { featureFunctions: FeatureFunction[] }) => {
   return (
     <TableContainer>
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Name</Th>
+            <Th>Feature Name</Th>
+            <Th>Function Name</Th>
             <Th>Function Signature</Th>
             <Th>Version</Th>
             <Th>Implementation</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {props.proxyFunctions.map(({ id, currentImpl, name, version }) => {
-            return (
-              <Tr key={id}>
-                <Td>{name}</Td>
-                <Td fontFamily="monospace">{id}</Td>
-                <Td>{version}</Td>
-                <Td fontFamily="monospace">{currentImpl}</Td>
-              </Tr>
-            );
-          })}
+          {props.featureFunctions.map(
+            ({ featureName, functionName, selector, currentImpl, version }) => {
+              return (
+                <Tr key={selector}>
+                  <Td>{featureName}</Td>
+                  <Td fontFamily="monospace">{functionName}</Td>
+                  <Td fontFamily="monospace">{selector}</Td>
+                  <Td>{version}</Td>
+                  <Td fontFamily="monospace">{currentImpl}</Td>
+                </Tr>
+              );
+            }
+          )}
         </Tbody>
       </Table>
     </TableContainer>
@@ -99,7 +105,7 @@ const FeatureTable = (props: { proxyFunctions: ProxyFunction[] }) => {
 
 const Home: NextPage = () => {
   return (
-    <Container maxW="5xl">
+    <Container maxW="7xl">
       <Box p="4">
         <Head>
           <title>0x Exchange Proxy Features</title>

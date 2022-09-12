@@ -1,6 +1,6 @@
 import { gql, request } from "graphql-request";
 import * as _ from "radash";
-import { Chain } from "./constants";
+import { Chain, FUNCTION_SELECTOR_TO_NAME } from "./constants";
 
 const CHAIN_TO_SUBGRAPH_URL: Record<Chain, string> = {
   ethereum:
@@ -43,12 +43,31 @@ export interface ProxyFunction {
   version: string;
 }
 
-export async function fetchProxyFunctions(
+export interface FeatureFunction {
+  featureName: string;
+  functionName: string;
+  selector: string;
+  currentImpl: string;
+  version: string;
+}
+
+export async function fetchFeatureFunctions(
   chain: Chain
-): Promise<ProxyFunction[]> {
+): Promise<FeatureFunction[]> {
   const { proxyFunctions } = await request<{ proxyFunctions: ProxyFunction[] }>(
     CHAIN_TO_SUBGRAPH_URL[chain],
     PROXY_FUNCTIONS_QUERY
   );
-  return _.alphabetical(proxyFunctions, (fn) => fn.name);
+
+  const featureFunctions = proxyFunctions.map((fn) => ({
+    featureName: fn.name,
+    functionName: FUNCTION_SELECTOR_TO_NAME.get(fn.id) || "?",
+    selector: fn.id,
+    currentImpl: fn.currentImpl,
+    version: fn.version,
+  }));
+
+  FUNCTION_SELECTOR_TO_NAME;
+
+  return _.alphabetical(featureFunctions, (fn) => fn.featureName);
 }
