@@ -14,24 +14,30 @@ import {
   Spinner,
   Stack,
   Container,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Chain } from "../utils/constants";
 import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
+import * as _ from "radash";
 
 const FeatureContainer = () => {
   const [chain, setChain] = useState<Chain>(Chain.Ethereum);
-  const [featureFunctions, setFeatureFunctions] = useState<FeatureFunction[]>(
-    []
-  );
+  const [featureNameToFunctions, setFeatureNameToFunctions] = useState<
+    Record<string, FeatureFunction[]>
+  >({});
 
   useEffect(() => {
     const fetchAndUpdate = async () => {
-      setFeatureFunctions([]);
-      const functions = await fetchFeatureFunctions(chain);
-      setFeatureFunctions(functions);
+      setFeatureNameToFunctions({});
+      const featureNameToFunctions = await fetchFeatureFunctions(chain);
+      setFeatureNameToFunctions(featureNameToFunctions);
     };
     fetchAndUpdate();
   }, [chain]);
@@ -57,15 +63,30 @@ const FeatureContainer = () => {
           })}
         </Select>
       </Center>
-      <Box>
-        <FeatureTable featureFunctions={featureFunctions} />
-        <Center mt="16">
-          <Spinner
-            size="xl"
-            visibility={featureFunctions.length === 0 ? "visible" : "hidden"}
-          />
-        </Center>
-      </Box>
+      <Center
+        mt="2"
+        display={_.isEmpty(featureNameToFunctions) ? "flex" : "none"}
+      >
+        <Spinner size="xl" />
+      </Center>
+      <Accordion defaultIndex={[0]} allowMultiple>
+        {Object.keys(featureNameToFunctions).map((featureName) => {
+          const functions = featureNameToFunctions[featureName];
+          return (
+            <AccordionItem key={featureName}>
+              <AccordionButton>
+                <Heading fontFamily="mono" size="md">
+                  {featureName}
+                </Heading>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel>
+                <FeatureTable featureFunctions={functions} />
+              </AccordionPanel>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
     </Stack>
   );
 };
@@ -76,23 +97,21 @@ const FeatureTable = (props: { featureFunctions: FeatureFunction[] }) => {
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Feature Name</Th>
-            <Th>Function Name</Th>
-            <Th>Function Signature</Th>
-            <Th>Version</Th>
-            <Th>Implementation</Th>
+            <Th w="40%">Function Name</Th>
+            <Th w="10%">Function Signature</Th>
+            <Th w="10%">Version</Th>
+            <Th w="40%">Implementation</Th>
           </Tr>
         </Thead>
         <Tbody>
           {props.featureFunctions.map(
-            ({ featureName, functionName, selector, currentImpl, version }) => {
+            ({ functionName, selector, currentImpl, version }) => {
               return (
-                <Tr key={selector}>
-                  <Td>{featureName}</Td>
-                  <Td fontFamily="monospace">{functionName}</Td>
-                  <Td fontFamily="monospace">{selector}</Td>
+                <Tr key={selector} fontFamily="monospace">
+                  <Td>{functionName}</Td>
+                  <Td>{selector}</Td>
                   <Td>{version}</Td>
-                  <Td fontFamily="monospace">{currentImpl}</Td>
+                  <Td>{currentImpl}</Td>
                 </Tr>
               );
             }
@@ -105,7 +124,7 @@ const FeatureTable = (props: { featureFunctions: FeatureFunction[] }) => {
 
 const Home: NextPage = () => {
   return (
-    <Container maxW="7xl">
+    <Container maxW="5xl">
       <Box p="4">
         <Head>
           <title>0x Exchange Proxy Features</title>

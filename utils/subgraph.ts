@@ -53,7 +53,7 @@ export interface FeatureFunction {
 
 export async function fetchFeatureFunctions(
   chain: Chain
-): Promise<FeatureFunction[]> {
+): Promise<Record<string, FeatureFunction[]>> {
   const { proxyFunctions } = await request<{ proxyFunctions: ProxyFunction[] }>(
     CHAIN_TO_SUBGRAPH_URL[chain],
     PROXY_FUNCTIONS_QUERY
@@ -66,8 +66,9 @@ export async function fetchFeatureFunctions(
     currentImpl: fn.currentImpl,
     version: fn.version,
   }));
-
-  FUNCTION_SELECTOR_TO_NAME;
-
-  return _.alphabetical(featureFunctions, (fn) => fn.featureName);
+  const sortedFeatureFunctions = _.alphabetical(
+    featureFunctions,
+    (fn) => fn.featureName
+  );
+  return _.group(sortedFeatureFunctions, (f) => f.featureName);
 }
