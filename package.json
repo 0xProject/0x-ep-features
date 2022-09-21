@@ -10,6 +10,7 @@
     "generate-fn-map": "yarn ts-node --skip-project scripts/generate-function-map.ts"
   },
   "dependencies": {
+    "@0x/contract-addresses": "^6.23.3",
     "@chakra-ui/react": "^2.3.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",

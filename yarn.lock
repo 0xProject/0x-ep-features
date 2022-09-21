@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@0x/contract-addresses@^6.23.3":
+  version "6.23.3"
+  resolved "https://registry.yarnpkg.com/@0x/contract-addresses/-/contract-addresses-6.23.3.tgz#54b04b58000f2382f5e38c3901d134a6bc4af08c"
+  integrity sha512-0wQmcUSLWAOQQzbWrS5J0wtX9NJ9LpoiUm5UfoHqaQvf2qh85qafoBMpAF9UkYBtFh9rT1viTxfEU2B657jgSg==
+
 "@0x/contract-artifacts@^3.18.1":
   version "3.18.1"
   resolved "https://registry.yarnpkg.com/@0x/contract-artifacts/-/contract-artifacts-3.18.1.tgz#8fe32f31a3c3805c1f91daa26a0fe4afe102fa0e"
