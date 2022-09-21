@@ -26,12 +26,16 @@ import { useEffect, useState } from "react";
 import { Chain } from "../utils/constants";
 import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 import * as _ from "radash";
+import { getExchangeProxyAddress } from "../utils/addresses";
 
 const fetchFeatureFunctionsMemo = _.memo((chain: Chain) =>
   fetchFeatureFunctions(chain)
 );
 
 const FeatureContainer = () => {
+  const [proxyAddress, setProxyAddress] = useState<string>(
+    "0xdef1c0ded9bec7f1a1670819833240f027b25eff"
+  );
   const [chain, setChain] = useState<Chain>(Chain.Ethereum);
   const [featureNameToFunctions, setFeatureNameToFunctions] = useState<
     Record<string, FeatureFunction[]>
@@ -46,9 +50,13 @@ const FeatureContainer = () => {
     fetchAndUpdate();
   }, [chain]);
 
+  useEffect(() => {
+    setProxyAddress(getExchangeProxyAddress(chain));
+  }, [chain]);
+
   return (
     <Stack>
-      <Center mb="8">
+      <Center>
         <Text mr="2" fontSize="xl">
           ⛓
         </Text>
@@ -66,6 +74,11 @@ const FeatureContainer = () => {
             );
           })}
         </Select>
+      </Center>
+      <Center>
+        <Text m="2" fontFamily="mono">
+          Proxy Address: {proxyAddress}
+        </Text>
       </Center>
       <Center
         mt="2"
