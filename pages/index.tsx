@@ -115,7 +115,7 @@ const FeatureTable = (props: { featureFunctions: FeatureFunction[] }) => {
         <Thead>
           <Tr>
             <Th w="40%">Function Name</Th>
-            <Th w="15%">Function Signature</Th>
+            <Th w="15%">Function Selector</Th>
             <Th w="10%">Version</Th>
             <Th w="35%">Implementation</Th>
           </Tr>
