@@ -17,8 +17,6 @@ const CHAIN_TO_SUBGRAPH_URL: Record<Chain, string> = {
     "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-optimism",
   arbitrum:
     "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-arbitrum-one",
-  ropsten:
-    "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-ropsten",
   mumbai:
     "https://api.thegraph.com/subgraphs/name/0xeng/zeroex-features-mumbai",
   goerli:
