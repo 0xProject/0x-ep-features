@@ -13,7 +13,6 @@ const CHAIN_TO_CHAIN_ID: Record<Chain, ChainId> = {
   celo: ChainId.Celo,
   optimism: ChainId.Optimism,
   arbitrum: ChainId.Arbitrum,
-  ropsten: ChainId.Ropsten,
   mumbai: ChainId.PolygonMumbai,
   goerli: ChainId.Goerli,
 };

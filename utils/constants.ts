@@ -7,7 +7,6 @@ export enum Chain {
   Celo = "celo",
   Optimism = "optimism",
   Arbitrum = "arbitrum",
-  Ropsten = "ropsten",
   Mumbai = "mumbai",
   Goerli = "goerli",
 }
