@@ -19,6 +19,8 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Image,
+  Link,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -27,6 +29,7 @@ import { Chain } from "../utils/constants";
 import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 import * as _ from "radash";
 import { getExchangeProxyAddress } from "../utils/addresses";
+import { getEtherscanAddressUrl } from "../utils/etherscan";
 
 const fetchFeatureFunctionsMemo = _.memo((chain: Chain) =>
   fetchFeatureFunctions(chain)
@@ -37,6 +40,8 @@ const FeatureContainer = () => {
     "0xdef1c0ded9bec7f1a1670819833240f027b25eff"
   );
   const [chain, setChain] = useState<Chain>(Chain.Ethereum);
+  const [exchangeProxyEtherscanUrl, setExchangeProxyEtherscanUrl] =
+    useState<string>(getEtherscanAddressUrl({ chain, address: proxyAddress }));
   const [featureNameToFunctions, setFeatureNameToFunctions] = useState<
     Record<string, FeatureFunction[]>
   >({});
@@ -53,6 +58,12 @@ const FeatureContainer = () => {
   useEffect(() => {
     setProxyAddress(getExchangeProxyAddress(chain));
   }, [chain]);
+
+  useEffect(() => {
+    setExchangeProxyEtherscanUrl(
+      getEtherscanAddressUrl({ chain, address: proxyAddress })
+    );
+  }, [chain, proxyAddress]);
 
   return (
     <Stack>
@@ -79,6 +90,9 @@ const FeatureContainer = () => {
         <Text m="2" fontFamily="mono">
           Proxy Address: {proxyAddress}
         </Text>
+        <Link href={exchangeProxyEtherscanUrl} target="_blank">
+          <Image boxSize="18px" src="etherscan-logo.svg" alt="etherscan logo" />
+        </Link>
       </Center>
       <Center
         mt="2"
