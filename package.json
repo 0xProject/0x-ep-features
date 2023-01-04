@@ -10,20 +10,20 @@
     "generate-fn-map": "yarn ts-node --skip-project scripts/generate-function-map.ts"
   },
   "dependencies": {
-    "@0x/contract-addresses": "^6.23.3",
-    "@chakra-ui/react": "^2.3.1",
+    "@0x/contract-addresses": "^8.0.0",
+    "@chakra-ui/react": "^2.4.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "framer-motion": "^6",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
-    "next": "12.2.5",
+    "next": "13.1.1",
     "radash": "^7.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@0x/contract-artifacts": "^3.18.1",
+    "@0x/contract-artifacts": "^3.18.2",
     "@ethersproject/keccak256": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
     "@types/node": "18.7.14",

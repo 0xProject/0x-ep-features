@@ -91,13 +91,7 @@ const FeatureContainer = () => {
           Proxy Address: {proxyAddress}
         </Text>
         <Link href={exchangeProxyEtherscanUrl} target="_blank" passHref>
-          <a>
-            <Image
-              boxSize="18px"
-              src="etherscan-logo.svg"
-              alt="etherscan logo"
-            />
-          </a>
+          <Image boxSize="18px" src="etherscan-logo.svg" alt="etherscan logo" />
         </Link>
       </Center>
       <Center
