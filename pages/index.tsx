@@ -20,7 +20,6 @@ import {
   AccordionPanel,
   AccordionIcon,
   Image,
-  Link,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -30,6 +29,7 @@ import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 import * as _ from "radash";
 import { getExchangeProxyAddress } from "../utils/addresses";
 import { getEtherscanAddressUrl } from "../utils/etherscan";
+import Link from "next/link";
 
 const fetchFeatureFunctionsMemo = _.memo((chain: Chain) =>
   fetchFeatureFunctions(chain)
@@ -90,8 +90,14 @@ const FeatureContainer = () => {
         <Text m="2" fontFamily="mono">
           Proxy Address: {proxyAddress}
         </Text>
-        <Link href={exchangeProxyEtherscanUrl} target="_blank">
-          <Image boxSize="18px" src="etherscan-logo.svg" alt="etherscan logo" />
+        <Link href={exchangeProxyEtherscanUrl} target="_blank" passHref>
+          <a>
+            <Image
+              boxSize="18px"
+              src="etherscan-logo.svg"
+              alt="etherscan logo"
+            />
+          </a>
         </Link>
       </Center>
       <Center
