@@ -1,6 +1,6 @@
 import { gql, request } from "graphql-request";
 import * as _ from "radash";
-import { Chain, FUNCTION_SELECTOR_TO_NAME } from "./constants";
+import { ALL_CHAINS, Chain, FUNCTION_SELECTOR_TO_NAME } from "./constants";
 
 const CHAIN_TO_SUBGRAPH_URL: Record<Chain, string> = {
   ethereum:
@@ -49,7 +49,7 @@ export interface FeatureFunction {
   version: string;
 }
 
-export async function fetchFeatureFunctions(
+async function fetchFeatureFunctionsInternal(
   chain: Chain
 ): Promise<Record<string, FeatureFunction[]>> {
   const { proxyFunctions } = await request<{ proxyFunctions: ProxyFunction[] }>(
@@ -69,4 +69,60 @@ export async function fetchFeatureFunctions(
     (fn) => fn.featureName
   );
   return _.group(sortedFeatureFunctions, (f) => f.featureName);
+}
+
+export const fetchFeatureFunctions = _.memo((chain: Chain) =>
+  fetchFeatureFunctionsInternal(chain)
+);
+
+export interface Feature {
+  name: string;
+  chain: Chain;
+  version: string;
+}
+
+async function fetchFeatures(chain: Chain): Promise<Feature[]> {
+  const featureNameToFunctions = await fetchFeatureFunctions(chain);
+  const featureNames = Object.keys(featureNameToFunctions);
+  const features = featureNames.map((name) => {
+    const functions = featureNameToFunctions[name];
+    const allVersions = functions.map((f) => f.version);
+    const latestVersion = allVersions.sort()[allVersions.length - 1];
+    return {
+      name,
+      chain,
+      version: latestVersion,
+    };
+  });
+
+  return features;
+}
+
+export interface FeatureVersionInfo {
+  name: string;
+  chainToVersion: Map<Chain, string>;
+}
+
+export async function fetchFeatureVersionInfoOfAllChain(): Promise<
+  FeatureVersionInfo[]
+> {
+  const features = (await Promise.all(ALL_CHAINS.map(fetchFeatures))).flatMap(
+    (features) => features
+  );
+
+  const featuresByName = _.group(features, (feature) => feature.name);
+
+  return Object.keys(featuresByName).map((featureName) => {
+    const features = featuresByName[featureName];
+    const chainToVersion = new Map(
+      features.map((feature) => {
+        return [feature.chain, feature.version];
+      })
+    );
+
+    return {
+      name: featureName,
+      chainToVersion,
+    };
+  });
 }

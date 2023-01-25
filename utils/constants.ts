@@ -11,6 +11,19 @@ export enum Chain {
   Goerli = "goerli",
 }
 
+export const ALL_CHAINS: Chain[] = [
+  Chain.Ethereum,
+  Chain.Polygon,
+  Chain.BinanceSmartChain,
+  Chain.Fantom,
+  Chain.Avalanche,
+  Chain.Celo,
+  Chain.Optimism,
+  Chain.Arbitrum,
+  Chain.Mumbai,
+  Chain.Goerli,
+];
+
 export const FUNCTION_SELECTOR_TO_NAME = new Map([
   ["0x84680615", "batchBuyERC1155s"],
   ["0xeae93ee7", "batchBuyERC721s"],

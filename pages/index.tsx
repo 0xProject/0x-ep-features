@@ -31,10 +31,6 @@ import * as _ from "radash";
 import { getExchangeProxyAddress } from "../utils/addresses";
 import { getEtherscanAddressUrl } from "../utils/etherscan";
 
-const fetchFeatureFunctionsMemo = _.memo((chain: Chain) =>
-  fetchFeatureFunctions(chain)
-);
-
 const FeatureContainer = () => {
   const [proxyAddress, setProxyAddress] = useState<string>(
     "0xdef1c0ded9bec7f1a1670819833240f027b25eff"
@@ -49,7 +45,7 @@ const FeatureContainer = () => {
   useEffect(() => {
     const fetchAndUpdate = async () => {
       setFeatureNameToFunctions({});
-      const featureNameToFunctions = await fetchFeatureFunctionsMemo(chain);
+      const featureNameToFunctions = await fetchFeatureFunctions(chain);
       setFeatureNameToFunctions(featureNameToFunctions);
     };
     fetchAndUpdate();
@@ -158,16 +154,16 @@ const Home: NextPage = () => {
     <Container maxW="5xl">
       <Box p="4">
         <Head>
-          <title>0x Exchange Proxy Features</title>
-          <meta name="description" content="0x Exchange Proxy Features" />
+          <title>0x Exchange Proxy Features by Chain</title>
+          <meta
+            name="description"
+            content="0x Exchange Proxy Features by Chain"
+          />
           <link rel="icon" href="/favicon.ico" />
         </Head>
       </Box>
 
       <main>
-        <Heading textAlign="center" mb={8}>
-          0x Exchange Proxy Features
-        </Heading>
         <FeatureContainer />
       </main>
     </Container>
