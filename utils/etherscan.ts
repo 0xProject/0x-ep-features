@@ -6,7 +6,7 @@ const CHAIN_TO_ETHERSCAN_BASE_URL: Record<Chain, string> = {
   [Chain.BinanceSmartChain]: "https://bscscan.com",
   [Chain.Fantom]: "https://ftmscan.com",
   [Chain.Avalanche]: "https://snowtrace.io",
-  [Chain.Celo]: "",
+  [Chain.Celo]: "https://celoscan.io",
   [Chain.Optimism]: "https://optimistic.etherscan.io",
   [Chain.Arbitrum]: "https://arbiscan.io",
   [Chain.Mumbai]: "https://mumbai.polygonscan.com",
