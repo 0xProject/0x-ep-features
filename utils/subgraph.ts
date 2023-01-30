@@ -1,6 +1,7 @@
 import { gql, request } from "graphql-request";
 import * as _ from "radash";
-import { ALL_CHAINS, Chain, FUNCTION_SELECTOR_TO_NAME } from "./constants";
+import { ALL_CHAINS, Chain } from "./constants";
+import { FUNCTION_SELECTOR_TO_NAME } from "./features";
 
 const CHAIN_TO_SUBGRAPH_URL: Record<Chain, string> = {
   ethereum:

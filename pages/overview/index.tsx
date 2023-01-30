@@ -15,17 +15,16 @@ import {
 import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import {
-  ALL_CHAINS,
-  Chain,
-  FeatureName,
-  FEATURE_NAME_TO_DESCRIPTIONS,
-} from "../../utils/constants";
+import { ALL_CHAINS, Chain } from "../../utils/constants";
 import {
   FeatureVersionInfo,
   fetchFeatureVersionInfoOfAllChain,
 } from "../../utils/subgraph";
 import * as _ from "radash";
+import {
+  FeatureName,
+  FEATURE_NAME_TO_DESCRIPTIONS,
+} from "../../utils/features";
 
 const FeatureVersionTable = () => {
   const [featureVersionInfos, setFeatureVersionInfos] = useState<

@@ -26,15 +26,12 @@ import {
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import {
-  Chain,
-  FeatureName,
-  FEATURE_NAME_TO_DESCRIPTIONS,
-} from "../utils/constants";
+import { Chain } from "../utils/constants";
 import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 import * as _ from "radash";
 import { getExchangeProxyAddress } from "../utils/addresses";
 import { getEtherscanAddressUrl } from "../utils/etherscan";
+import { FeatureName, FEATURE_NAME_TO_DESCRIPTIONS } from "../utils/features";
 
 const FeatureContainer = () => {
   const [proxyAddress, setProxyAddress] = useState<string>(
