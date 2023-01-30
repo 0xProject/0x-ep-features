@@ -1,3 +1,11 @@
+// Features to hide (deprecated, not interesting, and etc).
+export const FEATURE_NAMES_TO_HIDE = [
+  "ERC165",
+  "SignatureValidator",
+  "TokenSpender",
+  "Ownable",
+];
+
 export enum FeatureName {
   BatchFill = "BatchFill",
   ERC1155Orders = "ERC1155Orders",

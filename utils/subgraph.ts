@@ -1,7 +1,7 @@
 import { gql, request } from "graphql-request";
 import * as _ from "radash";
 import { ALL_CHAINS, Chain } from "./constants";
-import { FUNCTION_SELECTOR_TO_NAME } from "./features";
+import { FEATURE_NAMES_TO_HIDE, FUNCTION_SELECTOR_TO_NAME } from "./features";
 
 const CHAIN_TO_SUBGRAPH_URL: Record<Chain, string> = {
   ethereum:
@@ -58,13 +58,15 @@ async function fetchFeatureFunctionsInternal(
     PROXY_FUNCTIONS_QUERY
   );
 
-  const featureFunctions = proxyFunctions.map((fn) => ({
-    featureName: fn.name,
-    functionName: FUNCTION_SELECTOR_TO_NAME.get(fn.id) || "?",
-    selector: fn.id,
-    currentImpl: fn.currentImpl,
-    version: fn.version,
-  }));
+  const featureFunctions = proxyFunctions
+    .filter((fn) => !FEATURE_NAMES_TO_HIDE.includes(fn.name))
+    .map((fn) => ({
+      featureName: fn.name,
+      functionName: FUNCTION_SELECTOR_TO_NAME.get(fn.id) || "?",
+      selector: fn.id,
+      currentImpl: fn.currentImpl,
+      version: fn.version,
+    }));
   const sortedFeatureFunctions = _.alphabetical(
     featureFunctions,
     (fn) => fn.featureName
