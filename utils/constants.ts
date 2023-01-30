@@ -24,6 +24,54 @@ export const ALL_CHAINS: Chain[] = [
   Chain.Goerli,
 ];
 
+export enum FeatureName {
+  BatchFill = "BatchFill",
+  ERC1155Orders = "ERC1155Orders",
+  ERC721Orders = "ERC721Orders",
+  FundRecoveryFeature = "FundRecoveryFeature",
+  LimitOrders = "LimitOrders",
+  LiquidityProviderFeature = "LiquidityProviderFeature",
+  MetaTransactions = "MetaTransactions",
+  MultiplexFeature = "MultiplexFeature",
+  OtcOrders = "OtcOrders",
+  PancakeSwapFeature = "PancakeSwapFeature",
+  SimpleFunctionRegistry = "SimpleFunctionRegistry",
+  TransformERC20 = "TransformERC20",
+  UniswapFeature = "UniswapFeature",
+  UniswapV3Feature = "UniswapV3Feature",
+}
+
+export const FEATURE_NAME_TO_DESCRIPTIONS: Record<FeatureName, string> = {
+  [FeatureName.BatchFill]:
+    "[Swap] Feature for batch filling limit and RFQ orders",
+  [FeatureName.ERC1155Orders]:
+    "[NFT] A feature for interacting with ERC1155 orders.",
+  [FeatureName.ERC721Orders]:
+    "[NFT] A feature for interacting with ERC721 orders.",
+  [FeatureName.FundRecoveryFeature]:
+    "[Admin] Feature for recovering ERC20 tokens or ETH from the 0x Exchange Proxy.",
+  [FeatureName.LimitOrders]:
+    "[Swap] Feature for interacting with limit and RFQ orders (aka `NativeOrdersFeature`)",
+  [FeatureName.LiquidityProviderFeature]:
+    "[Swap] Feature for interacting with contracts that implement `ILiquidityProvider`",
+  [FeatureName.MetaTransactions]:
+    "[Swap] Feature for meta transactions (enables gasless swaps)",
+  [FeatureName.MultiplexFeature]:
+    "[Swap] Feature for efficient multiplex and multi-hop trades",
+  [FeatureName.OtcOrders]:
+    "[Swap] Feature for interacting with OTC (RFQ v2) orders.",
+  [FeatureName.PancakeSwapFeature]:
+    "[Swap] Feature for gas-efficient interactions with PancakeSwap",
+  [FeatureName.SimpleFunctionRegistry]:
+    "[Admin] Feature for managing features of 0x Exchange Proxy",
+  [FeatureName.TransformERC20]:
+    "[Swap] Feature to transform between ERC20 tokens.",
+  [FeatureName.UniswapFeature]:
+    "[Swap] Feature for gas-efficient interactions with Uniswap V2",
+  [FeatureName.UniswapV3Feature]:
+    "[Swap] Feature for gas-efficient interactions with Uniswap V3",
+};
+
 export const FUNCTION_SELECTOR_TO_NAME = new Map([
   ["0x84680615", "batchBuyERC1155s"],
   ["0xeae93ee7", "batchBuyERC721s"],

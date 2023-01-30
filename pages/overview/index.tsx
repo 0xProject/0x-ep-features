@@ -9,12 +9,18 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { ALL_CHAINS, Chain } from "../../utils/constants";
+import {
+  ALL_CHAINS,
+  Chain,
+  FeatureName,
+  FEATURE_NAME_TO_DESCRIPTIONS,
+} from "../../utils/constants";
 import {
   FeatureVersionInfo,
   fetchFeatureVersionInfoOfAllChain,
@@ -79,7 +85,13 @@ const FeatureVersionTable = () => {
               {featureVersionInfos.map((info) => {
                 return (
                   <Tr key={info.name}>
-                    <Td>{info.name}</Td>
+                    <Tooltip
+                      label={
+                        FEATURE_NAME_TO_DESCRIPTIONS[info.name as FeatureName]
+                      }
+                    >
+                      <Td>{info.name}</Td>
+                    </Tooltip>
                     {ALL_CHAINS.map((chain) => (
                       <Td key={info.name + chain}>
                         {toTableDisplayData({ info, chain })}
