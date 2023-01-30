@@ -21,6 +21,7 @@ import {
   AccordionIcon,
   Image,
   Link,
+  Tooltip,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -30,6 +31,7 @@ import { FeatureFunction, fetchFeatureFunctions } from "../utils/subgraph";
 import * as _ from "radash";
 import { getExchangeProxyAddress } from "../utils/addresses";
 import { getEtherscanAddressUrl } from "../utils/etherscan";
+import { FeatureName, FEATURE_NAME_TO_DESCRIPTIONS } from "../utils/features";
 
 const FeatureContainer = () => {
   const [proxyAddress, setProxyAddress] = useState<string>(
@@ -102,9 +104,15 @@ const FeatureContainer = () => {
           return (
             <AccordionItem key={featureName}>
               <AccordionButton>
-                <Heading fontFamily="mono" size="md">
-                  {featureName}
-                </Heading>
+                <Tooltip
+                  label={
+                    FEATURE_NAME_TO_DESCRIPTIONS[featureName as FeatureName]
+                  }
+                >
+                  <Heading fontFamily="mono" size="md">
+                    {featureName}
+                  </Heading>
+                </Tooltip>
                 <AccordionIcon />
               </AccordionButton>
               <AccordionPanel>
