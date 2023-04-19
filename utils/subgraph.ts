@@ -82,6 +82,7 @@ export interface Feature {
   name: string;
   chain: Chain;
   version: string;
+  impl: string;
 }
 
 async function fetchFeatures(chain: Chain): Promise<Feature[]> {
@@ -89,12 +90,17 @@ async function fetchFeatures(chain: Chain): Promise<Feature[]> {
   const featureNames = Object.keys(featureNameToFunctions);
   const features = featureNames.map((name) => {
     const functions = featureNameToFunctions[name];
-    const allVersions = functions.map((f) => f.version);
-    const latestVersion = allVersions.sort()[allVersions.length - 1];
+    const allVersions = functions.map((f) => ({
+      version: f.version,
+      impl: f.currentImpl,
+    }));
+    const latestVersionAndImpl = allVersions.sort((a, b) =>
+      a.version.localeCompare(b.version)
+    )[allVersions.length - 1];
     return {
       name,
       chain,
-      version: latestVersion,
+      ...latestVersionAndImpl,
     };
   });
 
@@ -103,7 +109,7 @@ async function fetchFeatures(chain: Chain): Promise<Feature[]> {
 
 export interface FeatureVersionInfo {
   name: string;
-  chainToVersion: Map<Chain, string>;
+  chainToFeature: Map<Chain, Feature>;
 }
 
 export async function fetchFeatureVersionInfoOfAllChain(): Promise<
@@ -117,15 +123,15 @@ export async function fetchFeatureVersionInfoOfAllChain(): Promise<
 
   return Object.keys(featuresByName).map((featureName) => {
     const features = featuresByName[featureName];
-    const chainToVersion = new Map(
+    const chainToFeature = new Map(
       features.map((feature) => {
-        return [feature.chain, feature.version];
+        return [feature.chain, feature];
       })
     );
 
     return {
       name: featureName,
-      chainToVersion,
+      chainToFeature,
     };
   });
 }

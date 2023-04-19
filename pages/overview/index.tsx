@@ -2,11 +2,15 @@ import {
   Box,
   Center,
   Container,
+  Flex,
+  Image,
+  Link,
   Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tooltip,
@@ -25,6 +29,7 @@ import {
   FeatureName,
   FEATURE_NAME_TO_DESCRIPTIONS,
 } from "../../utils/features";
+import { getEtherscanAddressUrl } from "../../utils/etherscan";
 
 const FeatureVersionTable = () => {
   const [featureVersionInfos, setFeatureVersionInfos] = useState<
@@ -47,13 +52,29 @@ const FeatureVersionTable = () => {
   }: {
     info: FeatureVersionInfo;
     chain: Chain;
-  }): string => {
-    const version = info.chainToVersion.get(chain);
-    if (version === undefined) {
-      return "❌";
+  }) => {
+    const feature = info.chainToFeature.get(chain);
+    if (feature === undefined) {
+      return (
+        <Flex>
+          <Text>❌</Text>
+        </Flex>
+      );
     }
 
-    return `✅ ${version}`;
+    const { version, impl } = feature;
+    return (
+      <Flex>
+        <Text>{`${version}`}</Text>
+        <Link
+          href={getEtherscanAddressUrl({ chain, address: impl }) + "#code"}
+          target="_blank"
+          marginLeft={"0.5em"}
+        >
+          <Image boxSize="16px" src="etherscan-logo.svg" alt="etherscan logo" />
+        </Link>
+      </Flex>
+    );
   };
 
   return (
