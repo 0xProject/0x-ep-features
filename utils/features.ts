@@ -14,6 +14,7 @@ export enum FeatureName {
   LimitOrders = "LimitOrders",
   LiquidityProviderFeature = "LiquidityProviderFeature",
   MetaTransactions = "MetaTransactions",
+  MetaTransactionsV2 = "MetaTransactionsV2",
   MultiplexFeature = "MultiplexFeature",
   OtcOrders = "OtcOrders",
   PancakeSwapFeature = "PancakeSwapFeature",
@@ -37,6 +38,8 @@ export const FEATURE_NAME_TO_DESCRIPTIONS: Record<FeatureName, string> = {
   [FeatureName.LiquidityProviderFeature]:
     "[Swap] Feature for interacting with contracts that implement `ILiquidityProvider`",
   [FeatureName.MetaTransactions]:
+    "[Swap] Feature for meta transactions (enables gasless swaps)",
+  [FeatureName.MetaTransactionsV2]:
     "[Swap] Feature for meta transactions (enables gasless swaps)",
   [FeatureName.MultiplexFeature]:
     "[Swap] Feature for efficient multiplex and multi-hop trades",
@@ -66,6 +69,7 @@ export const FUNCTION_SELECTOR_TO_NAME = new Map([
   ["0xfd5f995b", "batchCancelPairRfqOrdersWithSigner"],
   ["0xf6e0f6a5", "batchCancelRfqOrders"],
   ["0xc5579ec8", "batchExecuteMetaTransactions"],
+  ["0x34ae3600", "batchExecuteMetaTransactionsV2"],
   ["0x1baaa00b", "batchFillLimitOrders"],
   ["0x75103cb9", "batchFillRfqOrders"],
   ["0xe52d1764", "batchFillTakerSignedOtcOrders"],
@@ -84,6 +88,7 @@ export const FUNCTION_SELECTOR_TO_NAME = new Map([
   ["0xfe55a3ef", "cancelRfqOrder"],
   ["0x287b071b", "createTransformWallet"],
   ["0x3d61ed3e", "executeMetaTransaction"],
+  ["0x3d8d4082", "executeMetaTransactionV2"],
   ["0x6eb224cb", "extend"],
   ["0xf6274f66", "fillLimitOrder"],
   ["0x9240529c", "fillOrKillLimitOrder"],
@@ -105,6 +110,9 @@ export const FUNCTION_SELECTOR_TO_NAME = new Map([
   ["0x3fb2da38", "getMetaTransactionExecutedBlock"],
   ["0xae550497", "getMetaTransactionHash"],
   ["0x72d17d03", "getMetaTransactionHashExecutedBlock"],
+  ["0xb13c4c68", "getMetaTransactionV2ExecutedBlock"],
+  ["0x769c1107", "getMetaTransactionV2Hash"],
+  ["0xa982ee82", "getMetaTransactionV2HashExecutedBlock"],
   ["0x53476b89", "getOtcOrderHash"],
   ["0x8c807c43", "getOtcOrderInfo"],
   ["0x487b5c20", "getProtocolFeeMultiplier"],
