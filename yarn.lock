@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@0x/contract-addresses/-/contract-addresses-6.23.3.tgz#54b04b58000f2382f5e38c3901d134a6bc4af08c"
   integrity sha512-0wQmcUSLWAOQQzbWrS5J0wtX9NJ9LpoiUm5UfoHqaQvf2qh85qafoBMpAF9UkYBtFh9rT1viTxfEU2B657jgSg==
 
-"@0x/contract-artifacts@^3.18.1":
-  version "3.18.1"
-  resolved "https://registry.yarnpkg.com/@0x/contract-artifacts/-/contract-artifacts-3.18.1.tgz#8fe32f31a3c3805c1f91daa26a0fe4afe102fa0e"
-  integrity sha512-aco5hSO/tF1QUm3W3siq09TUF/7enBzLlNh5IjFRFueXDjOeWRqHSJ9h2A9RmuTBPqA9qi7XYx53tV2cbCbJ1w==
+"@0x/contract-artifacts@^3.19.0":
+  version "3.19.0"
+  resolved "https://registry.yarnpkg.com/@0x/contract-artifacts/-/contract-artifacts-3.19.0.tgz#315ab97ff7de661c2a511bc601a75f5b7cadb529"
+  integrity sha512-5tpx7qUejP/jhd44bLeYv5o2dqfWBF83auDGqPQIWFg6jF+8e8+vQd3YRW0Qphv1QgEHAtukepriXb8mUkXMhQ==
 
 "@babel/code-frame@^7.0.0":
   version "7.18.6"

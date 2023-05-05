@@ -23,7 +23,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@0x/contract-artifacts": "^3.18.1",
+    "@0x/contract-artifacts": "^3.19.0",
     "@ethersproject/keccak256": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
     "@types/node": "18.7.14",
